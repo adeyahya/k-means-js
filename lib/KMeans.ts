@@ -28,6 +28,8 @@ export class KMeans {
    * the extents (min, max) for each dimensions.
    */
   extents: ExtentType[] = [];
+
+  means: number[][] = [];
   
   /**
    * range of each extent.
@@ -44,6 +46,7 @@ export class KMeans {
 		this.data = options.data;
     this.extents = this.getExtent();
     this.ranges = this.getExtentRanges();
+    this.means = this.getMeans();
 	}
 
   /**
@@ -55,7 +58,7 @@ export class KMeans {
    * // [{min: 2, max: 4}, {min: 1, max: 7}, {min: -89, max: 60}]
    * ```
    */
-	getExtent() {
+	private getExtent() {
 		const extents = [];
 		for (let i = 0; i < this.data.length; i++) {
 			let point = this.data[i];
@@ -108,7 +111,7 @@ export class KMeans {
    * // [2, 6, 149]
    * ```
    */
-  getExtentRanges() {
+  private getExtentRanges() {
     const ranges = [];
 
     this.extents.forEach(extent => {
@@ -116,5 +119,25 @@ export class KMeans {
     });
 
     return ranges;
+  }
+
+  /**
+   * returns and array of randomly generated cluster centroid points
+   * bounds based on the data dimension ranges
+   */
+  private getMeans() {
+    const means = [];
+    let n = this.k;
+    
+    while(n--) {
+      const mean = [];
+
+      for (let i = 0; i < this.extents.length; i++) {
+        mean[i] = this.extents[i].min + (Math.random() * this.ranges[i]);
+      }
+
+      means.push(mean);
+    }
+    return means;
   }
 }
