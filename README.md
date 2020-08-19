@@ -17,4 +17,4 @@ Changes are tracked as [Github releases](https://github.com/adeyahya/k-means-js/
 License
 -------
 
-ects is [MIT-licensed](https://github.com/adeyahya/k-means-js/blob/master/LICENSE).
+k-means-js is [MIT-licensed](https://github.com/adeyahya/k-means-js/blob/master/LICENSE).
