@@ -1,7 +1,7 @@
 type ExtentType = {
-  min: number;
-  max: number;
-}
+	min: number;
+	max: number;
+};
 
 interface KMeansOptions {
 	/**
@@ -27,14 +27,14 @@ export class KMeans {
 	/**
    * the extents (min, max) for each dimensions.
    */
-  extents: ExtentType[] = [];
+	extents: Array<ExtentType> = [];
 
-  means: number[][] = [];
-  
-  /**
+	means: Array<Array<number>> = [];
+
+	/**
    * range of each extent.
    */
-  ranges: number[] = [];
+	ranges: Array<number> = [];
 
 	/**
    * Keep track of number of times centroids move.
@@ -44,12 +44,12 @@ export class KMeans {
 	constructor(options: KMeansOptions) {
 		this.k = options.k;
 		this.data = options.data;
-    this.extents = this.getExtent();
-    this.ranges = this.getExtentRanges();
-    this.means = this.getMeans();
+		this.extents = this.getExtent();
+		this.ranges = this.getExtentRanges();
+		this.means = this.getMeans();
 	}
 
-  /**
+	/**
    * get the minimum and maximum value for each dimension in the data array
    * 
    * ```
@@ -64,7 +64,7 @@ export class KMeans {
 			let point = this.data[i];
 			const extent = {min: Infinity, max: -Infinity};
 
-      // multidimensional array
+			// multidimensional array
 			if (Array.isArray(point)) {
 				for (let j = 0; j < point.length; j++) {
 					if (!extents[j]) {
@@ -98,9 +98,9 @@ export class KMeans {
 			}
 		}
 		return extents;
-  }
-  
-  /**
+	}
+
+	/**
    * return the range of each extent
    * ```
    * const kmeans = new KMeans({k: 2, data: [[2, 5, 60], [4, 7, 23], [3, 1, -89]]});
@@ -111,33 +111,33 @@ export class KMeans {
    * // [2, 6, 149]
    * ```
    */
-  private getExtentRanges() {
-    const ranges = [];
+	private getExtentRanges() {
+		const ranges = [];
 
-    this.extents.forEach(extent => {
-      ranges.push(extent.max - extent.min);
-    });
+		this.extents.forEach((extent) => {
+			ranges.push(extent.max - extent.min);
+		});
 
-    return ranges;
-  }
+		return ranges;
+	}
 
-  /**
+	/**
    * returns and array of randomly generated cluster centroid points
    * bounds based on the data dimension ranges
    */
-  private getMeans() {
-    const means = [];
-    let n = this.k;
-    
-    while(n--) {
-      const mean = [];
+	private getMeans() {
+		const means = [];
+		let n = this.k;
 
-      for (let i = 0; i < this.extents.length; i++) {
-        mean[i] = this.extents[i].min + (Math.random() * this.ranges[i]);
-      }
+		while (n--) {
+			const mean = [];
 
-      means.push(mean);
-    }
-    return means;
-  }
+			for (let i = 0; i < this.extents.length; i++) {
+				mean[i] = this.extents[i].min + Math.random() * this.ranges[i];
+			}
+
+			means.push(mean);
+		}
+		return means;
+	}
 }

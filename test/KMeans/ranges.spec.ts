@@ -24,11 +24,7 @@ describe(
 			"range extent 3 dimensions",
 			() => {
 				const k = new KMeans({k: 2, data: [[2, 5, 60], [4, 7, 23], [3, 1, -89]]});
-				expect(k.ranges).deep.eq([
-					2,
-					6,
-					149,
-				]);
+				expect(k.ranges).deep.eq([2, 6, 149]);
 			},
 		);
 	},
