@@ -1,0 +1,23 @@
+{
+	"$schema": "http://json.schemastore.org/tsconfig",
+	"compilerOptions": {
+		"target": "es5",
+		"module": "commonjs",
+		"declarationDir": "dist",
+		"outDir": "dist",
+		"declaration": true,
+		"sourceMap": true,
+		"declarationMap": true,
+		"types": [
+			"mocha"
+		],
+		"lib": [
+			"es5",
+			"DOM"
+		]
+	},
+	"include": [
+		"index.ts",
+		"lib/**/*.ts"
+	]
+}

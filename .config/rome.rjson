@@ -1,0 +1,13 @@
+// For configuration documentation see http://romefrontend.dev/#project-configuration
+name: "DataStructure"
+lint: {
+	globals: [
+		"it"
+		"describe"
+]
+	ignore: [
+		"node_modules"
+		"scripts"
+]
+}
+root: true
