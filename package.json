@@ -31,6 +31,9 @@
   "resolutions": {
     "mem": "^4.0.0"
   },
+  "exports": {
+    "@lib": "./lib/index.ts"
+  },
   "devDependencies": {
     "@rollup/plugin-typescript": "^5.0.2",
     "@types/chai": "^4.2.12",
@@ -45,6 +48,7 @@
     "rollup-plugin-typescript2": "^0.27.2",
     "rome": "^10.0.4-beta",
     "ts-node": "^8.10.2",
+    "tsconfig-paths": "^3.9.0",
     "tslib": "^2.0.1",
     "typedoc": "^0.18.0",
     "typescript": "^3.9.7"

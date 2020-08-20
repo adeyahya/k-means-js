@@ -1,4 +1,4 @@
-import {KMeans} from "../../index";
+import {KMeans} from "@lib";
 import {expect} from "chai";
 
 const data = [

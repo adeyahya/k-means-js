@@ -14,10 +14,19 @@
 		"lib": [
 			"esnext",
 			"DOM"
-		]
+		],
+		"baseUrl": ".",
+		"paths": {
+			"@lib": [
+				"lib/index.ts"
+			],
+			"@lib/*": [
+				"lib/*"
+			]
+		}
 	},
-	"include": [
-		"index.ts",
-		"lib/**/*.ts"
+	"exclude": [
+		"node_modules",
+		"dist"
 	]
 }

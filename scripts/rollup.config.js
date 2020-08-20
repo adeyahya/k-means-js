@@ -3,7 +3,7 @@ import {terser} from "rollup-plugin-terser";
 import pkg from "../package.json";
 
 const sharedConfig = {
-	input: "index.ts",
+	input: "lib/index.ts",
 	external: {
 		...Object.keys(pkg.dependencies || {}),
 	},
