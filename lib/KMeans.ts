@@ -140,4 +140,54 @@ export class KMeans {
 		}
 		return means;
 	}
+
+	/**
+   * calculate distance on each point to the the mean based on Euclidean distance
+   * assign each point to the closest mean point
+   * 
+   * https://en.wikipedia.org/wiki/Euclidean_distance
+   */
+	private getDataPoints() {
+		const assignments = [];
+
+		for (let i = 0; i < this.data.length; i++) {
+			// d(p, q)[]
+			const distances = [];
+			const point = this.data[i];
+
+			for (let j = 0; j < this.means.length; j++) {
+				const mean = this.means[j];
+				let sum = 0;
+
+				let difference = 0;
+				if (Array.isArray(point)) {
+					for (let dim = 0; dim < point.length; dim++) {
+						// diff = (pn - qn)
+						difference = point[dim] - mean[dim];
+					}
+				} else {
+					// diff = (pn - qn)
+					difference = (point as number) - mean[0];
+				}
+				// diff = (diff)^2
+				difference = Math.pow(difference, 2);
+
+				sum += difference;
+				distances[j] = Math.sqrt(sum);
+			}
+
+			// get the closest centroid
+			const smallestDistance = Math.min.apply(null, distances);
+			assignments[i] = distances.indexOf(smallestDistance);
+		}
+
+		return assignments;
+	}
+
+	run() {
+		this.iterations += 1;
+
+		// reassign point to nearest cluster centroids.
+		this.assignments = this.getDataPoints();
+	}
 }

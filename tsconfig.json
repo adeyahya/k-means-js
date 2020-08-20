@@ -12,7 +12,7 @@
 			"mocha"
 		],
 		"lib": [
-			"es5",
+			"esnext",
 			"DOM"
 		]
 	},
