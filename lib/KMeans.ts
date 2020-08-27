@@ -184,10 +184,88 @@ export class KMeans {
 		return assignments;
 	}
 
-	run() {
+	private moveMeans() {
+		const sums = new Array(this.means.length).fill(0);
+		const counts = {...sums};
+		let moved = false;
+
+		for (let i = 0; i < this.means.length; i++) {
+			const mean = this.means[i];
+			sums[i] = new Array(mean.length).fill(0);
+		}
+
+		for (let pointIndex = 0; pointIndex < this.assignments.length; pointIndex++) {
+			const meanIndex = this.assignments[pointIndex];
+			const point = this.data[pointIndex];
+			const mean = this.means[meanIndex];
+
+			counts[meanIndex]++;
+
+			for (let dim = 0; dim < mean.length; dim++) {
+				sums[meanIndex][dim] += Array.isArray(point) ? point[dim] : point;
+			}
+		}
+
+		for (let meanIndex = 0; meanIndex < sums.length; meanIndex++) {
+			if (counts[meanIndex] === 0) {
+				sums[meanIndex] = this.means[meanIndex];
+
+				for (let dim = 0; dim < sums[meanIndex].length; dim++) {
+					sums[meanIndex][dim] =
+						this.extents[dim].min + Math.random() * this.ranges[dim];
+				}
+				continue;
+			}
+
+			for (let dim = 0; dim < sums[meanIndex].length; dim++) {
+				sums[meanIndex][dim] /= counts[meanIndex];
+				sums[meanIndex][dim] = Math.round(100 * sums[meanIndex][dim]) / 100;
+			}
+		}
+
+		if (this.means.toString() !== sums.toString()) {
+			let diff;
+			moved = true;
+
+			for (let meanIndex = 0; meanIndex < sums.length; meanIndex++) {
+				for (let dim = 0; dim < sums[meanIndex].length; dim++) {
+					diff = sums[meanIndex][dim] - this.means[meanIndex][dim];
+					if (Math.abs(diff) > 0.1) {
+						let stepsPerIteration = 10;
+						this.means[meanIndex][dim] += diff / stepsPerIteration;
+						this.means[meanIndex][dim] =
+							Math.round(100 * this.means[meanIndex][dim]) / 100;
+					} else {
+						this.means[meanIndex][dim] = sums[meanIndex][dim];
+					}
+				}
+			}
+		}
+
+		return moved;
+	}
+
+	async run() {
 		this.iterations += 1;
 
 		// reassign point to nearest cluster centroids.
 		this.assignments = this.getDataPoints();
+
+		const meansMoved = this.moveMeans();
+
+		if (meansMoved) {
+			return this.run();
+		} else {
+			const result = [];
+			for (let i = 0; i < this.assignments.length; i++) {
+				const cluster = this.assignments[i];
+				if (result[cluster]) {
+					result[cluster].push(this.data[i]);
+				} else {
+					result[cluster] = [this.data[i]];
+				}
+			}
+			return Promise.resolve(result);
+		}
 	}
 }

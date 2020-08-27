@@ -32,7 +32,7 @@ const data = [
 describe(
 	"KMeans - assignment",
 	() => {
-		const kmean = new KMeans({k: 5, data});
+		const kmean = new KMeans({k: 2, data});
 		kmean.run();
 		const clusters = [];
 		kmean.assignments.forEach((cluster) => {
@@ -40,11 +40,10 @@ describe(
 				clusters.push(cluster);
 			}
 		});
-
 		it(
 			"should assign to valid cluster",
 			() => {
-				expect(clusters.length).eq(5);
+				expect(clusters.length).eq(2);
 			},
 		);
 
